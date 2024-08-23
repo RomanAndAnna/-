@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Приглашение на свадьбу</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'Miami Nueva';
+            src: url('https://github.com/NRomanO19/NRomanO19.github.io/blob/6473ff91c8f9bb6f1128e789005012ce6e26706f/Miama%20Nueva.ttf') format('truetype');
+            font-weight: 400; 
+            font-style: normal; 
+        }
+
+        body {
+            font-family: 'Miami Nueva', serif; 
+            background-image: url('https://static.vecteezy.com/system/resources/previews/000/404/826/original/invitation-card-with-a-light-blue-theme-vector.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            animation: fadeIn 1s ease-in;
+        }
+
+        header {
+            margin: 20px 0;
+        }
+
+        h1, h2, h3 {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        main {
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        section {
+            margin: 20px 0;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px; /* Добавлено для промежутков между элементами формы */
+        }
+
+        input, select, button {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        footer {
+            margin-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                font-size: 14px; /* Уменьшение шрифта на мобильных устройствах */
+            }
+
+            main {
+                padding: 10px;
+            }
+
+            input, select, button {
+                font-size: 14px; /* Уменьшение размера шрифта в формах */
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Приглашение на свадьбу</h1>
+    </header>
+    <main>
+        <section class="invitation">
+            <h2>Роман & Анна</h2>
+            <p>С радостью приглашаем вас на нашу свадьбу!</p>
+            <p>Дата: 24 сентября 2024 года</p>
+            <p>Время: 12:00</p>
+            <p>Место: ЗАГС по адресу Пермский край, г. Чайковский, Вокзальная, 41</p>
+        </section>
+
+        <section class="details">
+            <h3>Подробности</h3>
+            <p>После церемонии будет банкет и веселье до позднего вечера!</p>
+            <p>Пожалуйста, подтвердите свое присутствие до 1 сентября 2024 года.</p>
+        </section>
+
+        <section class="rsvp">
+            <h3>Подтверждение участия</h3>
+            <form id="rsvp-form">
+                <label for="name">Ваше имя:</label>
+                <input type="text" id="name" name="name" required>
+                
+                <label for="attendance">Вы будете присутствовать?</label>
+                <select id="attendance" name="attendance" required>
+                    <option value="">Выберите</option>
+                    <option value="yes">Да</option>
+                    <option value="no">Нет</option>
+                </select>
+
+                <button type="submit">Отправить</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p id="download-link" style="cursor: pointer;">&copy; 2024 Роман и Анна</p>
+    </footer>
+
+    <script>
+        document.getElementById('rsvp-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const attendance = document.getElementById('attendance').value;
+
+            let message;
+            if (attendance === 'yes') {
+                message = `${name}, будем рады видеть вас на нашем торжестве!`;
+            } else {
+                message = `${name}, сожалеем, что не сможете разделить торжество с нами.`;
+            }
+
+            alert(message);
+
+            // Отправка данных в Telegram
+            sendToTelegram(message);
+        });
+
+        function sendToTelegram(message) {const token = '7167139784:AAGt6xLpO_j0UUfuvpk_XKHjcMspRqDCnqY'; // Замените на ваш токен бота
+            const chatId = '1699389283'; // Замените на ваш chat_id
+            const url = `https://api.telegram.org/bot${token}/sendMessage`;
+
+            const data = {
+                chat_id: chatId,
+                text: message
+            };
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
